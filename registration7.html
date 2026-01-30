@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Freelancing Registration</title>
+<style>
+*{
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#667eea,#764ba2,#ff758c,#ff7eb3);
+    background-size:300% 300%;
+    animation: bg 10s infinite;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    background:white;
+    border-radius:15px;
+    padding:25px 30px;
+    width:420px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:15px;
+    color:#333;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    outline:none;
+    font-size:14px;
+    transition:0.3s;
+}
+
+input:focus,select:focus{
+    border-color:#667eea;
+    box-shadow:0 0 6px rgba(102,126,234,0.6);
+}
+
+.error{
+    color:red;
+    font-size:12px;
+}
+
+.success{
+    text-align:center;
+    margin-top:10px;
+    color:green;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(45deg,#667eea,#764ba2);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:linear-gradient(45deg,#ff758c,#ff7eb3);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Student Freelancing Registration</h2>
+
+<form id="regForm">
+
+<input type="text" id="name" placeholder="Full Name">
+<div class="error" id="nameError"></div>
+
+<input type="email" id="email" placeholder="Email Address">
+<div class="error" id="emailError"></div>
+
+<input type="tel" id="phone" placeholder="Phone Number">
+<div class="error" id="phoneError"></div>
+
+<input type="password" id="password" placeholder="Password">
+<div class="error" id="passwordError"></div>
+
+<input type="password" id="confirmPassword" placeholder="Confirm Password">
+<div class="error" id="confirmError"></div>
+
+<input type="text" id="college" placeholder="College Name">
+<input type="text" id="skills" placeholder="Skills (Web, Python, Design...)">
+
+<select id="level">
+<option value="">Select Experience Level</option>
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Expert</option>
+</select>
+
+<button type="submit">Register 🚀</button>
+</form>
+
+<div class="success" id="successMsg"></div>
+</div>
+
+<script>
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const passInput = document.getElementById("password");
+const confirmInput = document.getElementById("confirmPassword");
+
+// Real-time validation
+nameInput.addEventListener("input", validateName);
+emailInput.addEventListener("input", validateEmail);
+phoneInput.addEventListener("input", validatePhone);
+passInput.addEventListener("input", validatePassword);
+confirmInput.addEventListener("input", validateConfirm);
+
+function validateName(){
+    let name = nameInput.value.trim();
+    let pattern = /^[A-Za-z ]{3,}$/;
+    document.getElementById("nameError").innerHTML =
+        pattern.test(name) ? "" : "Enter valid name (min 3 letters)";
+    return pattern.test(name);
+}
+
+function validateEmail(){
+    let email = emailInput.value.trim();
+    let pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    document.getElementById("emailError").innerHTML =
+        pattern.test(email) ? "" : "Enter valid email";
+    return pattern.test(email);
+}
+
+function validatePhone(){
+    let phone = phoneInput.value.trim();
+    let pattern = /^[0-9]{10}$/;
+    document.getElementById("phoneError").innerHTML =
+        pattern.test(phone) ? "" : "Enter 10-digit phone number";
+    return pattern.test(phone);
+}
+
+function validatePassword(){
+    let pass = passInput.value.trim();
+    let pattern = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    document.getElementById("passwordError").innerHTML =
+        pattern.test(pass) ? "" : "Password must have 6+ chars, 1 letter & 1 number";
+    return pattern.test(pass);
+}
+
+function validateConfirm(){
+    let pass = passInput.value.trim();
+    let confirm = confirmInput.value.trim();
+    document.getElementById("confirmError").innerHTML =
+        pass === confirm ? "" : "Passwords do not match";
+    return pass === confirm;
+}
+
+document.getElementById("regForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let valid = validateName() && validateEmail() && validatePhone() && validatePassword() && validateConfirm();
+
+    if(valid){
+        document.getElementById("successMsg").innerHTML = "🎉 Registration Successful!";
+        document.getElementById("regForm").reset();
+    } else {
+        document.getElementById("successMsg").innerHTML = "";
+    }
+});
+</script>
+
+</body>
+</html>
